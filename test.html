@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Chess</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="Load()">
+    <h1 id="helloer" >Zdarova</h1>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+      
+    <input id="message" type="text">
+    <button onclick=""> say </button>
+    <button onclick="room()"> say </button>
+    <input type="text">
+
+    <script>
+        var socket = io.connect();socket.emit('con', socket.id)
+
+        function Load(){
+            sayHI();
+        }
+
+        function sayHI(){
+            socket.emit('con', socket.id)
+        }
+
+        function room(){
+            socket.emit('saysome', "ahahahahahahah")
+        }
+
+        socket.on('alertion', message =>{
+            alert(" says : " + message);
+        });
+
+
+    </script>
+
+</body>
