@@ -10,6 +10,8 @@ server.listen(3000, () => {
     console.log(" Server running ");
 });
 
+app.use('/game.js', express.static(__dirname + '/game.js'));
+
 app.use('/style.css', express.static(__dirname + '/style.css'));
  
 app.get('/', function(request, respons){
