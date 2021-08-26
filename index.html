@@ -21,11 +21,12 @@
         var $name = $("#playerName");
 
         $form.submit(function(event) {
-            if ($name != null){
+            if ($name.val() != ""){
             event.preventDefault();
             socket.emit('join room', $name.val())
             } else { alert ("wrong name")}
         });
+
         socket.on('new page', (linkk) =>{
             location.href='/' + linkk;
         } );

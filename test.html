@@ -4,26 +4,150 @@
     <title>Chess</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="Load()">
+<body onload="">
     <h1 id="helloer" >Zdarova</h1>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
       
-    <div>AHAHHAHAH</div>
     <input id="message" type="text">
-    <button onclick=""> say </button>
-    <button onclick="room()"> say </button>
-    <input type="text">
+    <button onclick="countt()"> count </button>
+    <button onclick="kk()"> connect</button>
+    <input id="messagee" type="text">
+
+    <table class="ChesTable" border="1">
+        <tr>
+            <th id="00" onclick="ChessOnClick(this.id)"> </th>
+            <th id="01" onclick="ChessOnClick(this.id)"> </th>
+            <th id="02" onclick="ChessOnClick(this.id)"> </th>
+            <th id="03" onclick="ChessOnClick(this.id)"> </th>
+            <th id="04" onclick="ChessOnClick(this.id)"> </th>
+            <th id="05" onclick="ChessOnClick(this.id)"> </th>
+            <th id="06" onclick="ChessOnClick(this.id)"> </th>
+            <th id="07" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="10" onclick="ChessOnClick(this.id)"> </th>
+            <th id="11" onclick="ChessOnClick(this.id)"> </th>
+            <th id="12" onclick="ChessOnClick(this.id)"> </th>
+            <th id="13" onclick="ChessOnClick(this.id)"> </th>
+            <th id="14" onclick="ChessOnClick(this.id)"> </th>
+            <th id="15" onclick="ChessOnClick(this.id)"> </th>
+            <th id="16" onclick="ChessOnClick(this.id)"> </th>
+            <th id="17" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="20" onclick="ChessOnClick(this.id)"> </th>
+            <th id="21" onclick="ChessOnClick(this.id)"> </th>
+            <th id="22" onclick="ChessOnClick(this.id)"> </th>
+            <th id="23" onclick="ChessOnClick(this.id)"> </th>
+            <th id="24" onclick="ChessOnClick(this.id)"> </th>
+            <th id="25" onclick="ChessOnClick(this.id)"> </th>
+            <th id="26" onclick="ChessOnClick(this.id)"> </th>
+            <th id="27" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="30" onclick="ChessOnClick(this.id)"> </th>
+            <th id="31" onclick="ChessOnClick(this.id)"> </th>
+            <th id="32" onclick="ChessOnClick(this.id)"> </th>
+            <th id="33" onclick="ChessOnClick(this.id)"> </th>
+            <th id="34" onclick="ChessOnClick(this.id)"> </th>
+            <th id="35" onclick="ChessOnClick(this.id)"> </th>
+            <th id="36" onclick="ChessOnClick(this.id)"> </th>
+            <th id="37" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="40" onclick="ChessOnClick(this.id)"> </th>
+            <th id="41" onclick="ChessOnClick(this.id)"> </th>
+            <th id="42" onclick="ChessOnClick(this.id)"> </th>
+            <th id="43" onclick="ChessOnClick(this.id)"> </th>
+            <th id="44" onclick="ChessOnClick(this.id)"> </th>
+            <th id="45" onclick="ChessOnClick(this.id)"> </th>
+            <th id="46" onclick="ChessOnClick(this.id)"> </th>
+            <th id="47" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="50" onclick="ChessOnClick(this.id)"> </th>
+            <th id="51" onclick="ChessOnClick(this.id)"> </th>
+            <th id="52" onclick="ChessOnClick(this.id)"> </th>
+            <th id="53" onclick="ChessOnClick(this.id)"> </th>
+            <th id="54" onclick="ChessOnClick(this.id)"> </th>
+            <th id="55" onclick="ChessOnClick(this.id)"> </th>
+            <th id="56" onclick="ChessOnClick(this.id)"> </th>
+            <th id="57" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="60" onclick="ChessOnClick(this.id)"> </th>
+            <th id="61" onclick="ChessOnClick(this.id)"> </th>
+            <th id="62" onclick="ChessOnClick(this.id)"> </th>
+            <th id="63" onclick="ChessOnClick(this.id)"> </th>
+            <th id="64" onclick="ChessOnClick(this.id)"> </th>
+            <th id="65" onclick="ChessOnClick(this.id)"> </th>
+            <th id="66" onclick="ChessOnClick(this.id)"> </th>
+            <th id="67" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+        <tr>
+            <th id="70" onclick="ChessOnClick(this.id)"> </th>
+            <th id="71" onclick="ChessOnClick(this.id)"> </th>
+            <th id="72" onclick="ChessOnClick(this.id)"> </th>
+            <th id="73" onclick="ChessOnClick(this.id)"> </th>
+            <th id="74" onclick="ChessOnClick(this.id)"> </th>
+            <th id="75" onclick="ChessOnClick(this.id)"> </th>
+            <th id="76" onclick="ChessOnClick(this.id)"> </th>
+            <th id="77" onclick="ChessOnClick(this.id)"> </th>
+        </tr>
+      </table>
+      
 
     <script>
-        var socket = io.connect();socket.emit('con', socket.id)
+        var socket = io.connect();
+        socket.emit('come', (window.location.href));
+        var player;
+        socket.emit('setColor',);
+        socket.on('getColor', (C) => {
+            player = C;
+        });
+        
+        var $n = $("#message");
+        var $m = $("#messagee");
+        var Mx,My, MStage = false;
+        let tablee = new Array(8);
+        
+        for (var i = 0; i < tablee.length; i++) {
+        tablee [i] = new Array(8);}
+        start(tablee);
+        console.log(tablee[1][1].getName());
 
-        function Load(){
-            sayHI();
+        function countt(){
+            socket.emit('count', ($n.val()))
         }
 
-        function sayHI(){
-            socket.emit('con', socket.id)
+        function ChessOnClick(id){
+            ChessOnClickk(id, player, tablee, Mx, My, MStage);
+            socket.emit('turn', tablee);
+        }
+
+        socket.on('turned', (tableee) => {
+            console.log(tableee);
+            //tablee = tableee;
+            //alert (tablee[0][0]);
+            for (let i = 0; i<8; i++){
+                for (let j = 0; j< 8; j++){
+                    tablee [i][j] = tableee [i][j];
+                }
+            }
+            console.log(tablee);
+        });
+
+        socket.on('counte', (x) => {
+            console.log("da");
+            x = (x + 5);
+            $m.val(x);
+            console.log("da");
+        });
+
+        function kk(){
+            
         }
     </script>
 

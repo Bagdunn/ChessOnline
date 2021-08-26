@@ -10,6 +10,7 @@ server.listen(3000, () => {
     console.log(" Server running ");
 });
 
+
 app.use('/game.js', express.static(__dirname + '/game.js'));
 
 app.use('/style.css', express.static(__dirname + '/style.css'));
@@ -31,10 +32,20 @@ freeRooms = {
     NameofFree : "", 
     idofFree : ""
 }
-var P1=0,P2=0;
+
+var white=0;
 
 io.on('connection', (socket) => {
     console.log(socket.id + " connected");
+    if (white == 0){
+        socket.color = "white";
+        white = 1;
+    }
+    else if (white == 1){
+        socket.color = "black";
+        white = 0;
+    }
+    console.log("color is " + socket.color);
 
     socket.on('disconnect', (data)=>{
         connections.splice(connections.indexOf(socket),1);
@@ -65,21 +76,24 @@ io.on('connection', (socket) => {
         
     });
 
-    socket.on('con', (id) =>{
-        if (P1 == 0 && id != null){
-        P1 = id;
-        socket.join(P1);
-        socket.room = P1;
-        console.log(P1 + " connect");
-        }
-        else if (P2 == 0 && id != null){
-        P2 = id;
-        socket.join(P1);
-        socket.room = P1;
-        console.log(P2 + " connect");
-        P1 =0; P2=0;
-        }
-    })
+    socket.on('come', (linq) => {
+        socket.join(linq);
+        socket.room=linq;
+        console.log(linq);
+    });
+
+    socket.on('count', (x) => {
+        io.to(socket.room).emit('counte', x);
+        console.log(socket.room);
+    });
+    socket.on('setColor', () => {
+        io.to(socket.id).emit('getColor', socket.color);
+    });
+
+    socket.on('turn', (tablee) => {
+        io.to(socket.room).emit('turned', tablee);
+        //console.log(tablee);
+    });
 
     socket.on('disconnect', (data)=>{
         connections.splice(connections.indexOf(socket),1);
