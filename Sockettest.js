@@ -45,18 +45,15 @@ io.on('connection', (socket) => {
         socket.color = "black";
         white = 0;
     }
-    console.log("color is " + socket.color);
 
     socket.on('disconnect', (data)=>{
         connections.splice(connections.indexOf(socket),1);
-        console.log("bye");
     });
 
     socket.on('join room', (Name) => {
         if (freeRooms.Isfree){
         socket.room = (freeRooms.idofFree);
         socket.join(freeRooms.idofFree);
-        console.log(Name + " joined to " + socket.room + " sroom");
         
         linkk = socket.id + "ua";
 
@@ -71,7 +68,6 @@ io.on('connection', (socket) => {
         freeRooms.idofFree = (socket.id);
         socket.room = socket.id;
         socket.join(socket.id);
-        console.log(Name + " joined to  " + socket.room +" sroom");
         }
         
     });
@@ -79,12 +75,10 @@ io.on('connection', (socket) => {
     socket.on('come', (linq) => {
         socket.join(linq);
         socket.room=linq;
-        console.log(linq);
     });
 
     socket.on('count', (x) => {
         io.to(socket.room).emit('counte', x);
-        console.log(socket.room);
     });
     socket.on('setColor', () => {
         io.to(socket.id).emit('getColor', socket.color);
@@ -92,12 +86,14 @@ io.on('connection', (socket) => {
 
     socket.on('turn', (tablee) => {
         io.to(socket.room).emit('turned', tablee);
-        //console.log(tablee);
     });
 
-    socket.on('disconnect', (data)=>{
-        connections.splice(connections.indexOf(socket),1);
-        console.log("bye");
+    socket.on('testclick', (id, player, tablee, Mx, My, MStage) =>{
+        console.log('test 2');
+        res = ChessOnClickk(id, player, tablee, Mx, My, MStage);
+        socket.emit('backrez', (res));
+        
     });
+
 
 });

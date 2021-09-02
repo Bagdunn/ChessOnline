@@ -11,7 +11,7 @@
     <script src="game.js"></script>
       
     <input id="message" type="text">
-    <button onclick="countt()"> count </button>
+    <button onclick="OnClick()"> count </button>
     <button onclick="kk()"> connect</button>
     <input id="messagee" type="text">
 
@@ -123,20 +123,51 @@
         }
 
         function ChessOnClick(id){
-            ChessOnClickk(id, player, tablee, Mx, My, MStage);
+            res = ChessOnClickk(id, player, tablee, Mx, My, MStage);
+            tablee = res.table;
+            Mx = res.Mx;
+            My = res.My;
+            MStage = res.MStage;
             socket.emit('turn', tablee);
+            console.log(MStage);
+            console.log(Mx + " " + My);
         }
 
+        function TestClick(id){ы
+            socket.emit('testclick', (id, player, tablee, Mx, My, MStage))
+        }
+
+        socket.on ('backrez', (res) => {
+            
+        });
+
         socket.on('turned', (tableee) => {
-            console.log(tableee);
+            //onsole.log(tableee);
             //tablee = tableee;
             //alert (tablee[0][0]);
-            for (let i = 0; i<8; i++){
-                for (let j = 0; j< 8; j++){
-                    tablee [i][j] = tableee [i][j];
-                }
-            }
+            // for (let i = 0; i<8; i++){
+            //     for (let j = 0; j< 8; j++){
+            //         tablee [i][j] = tableee [i][j];
+            //         y = (i-(i%10))/10;
+            //         x = i%10;
+            //         t = document.getElementById(y + "" + x);
+            //     }
+            // }
+            tablee = tableee;
             console.log(tablee);
+            for (i=0;i<=77;i++){
+                y = (i-(i%10))/10;
+                x = i%10;
+                t = document.getElementById(y + "" + x);
+                if ( tablee[x][y] != undefined){
+                    //console.log(tablee[x][y].name);
+                    t.textContent = tablee[x][y].name;
+                }
+                if ( tablee[x][y] == undefined){
+                    t.textContent = "";
+                }
+                if ( x == 7) i+=2;
+            }
         });
 
         socket.on('counte', (x) => {
@@ -146,8 +177,10 @@
             console.log("da");
         });
 
-        function kk(){
-            
+        function OnClick(){
+            tablee = OnClickk (tablee);
+
+            socket.emit('turn', tablee);
         }
     </script>
 

@@ -18,6 +18,8 @@ class Chess {
 // ------------------------------- Пешка ----------- -----------------
 
 class Pawn  extends Chess{
+    name = "pawn";
+
     MisReal (newX, newY, arr) {
         if ((newX == this.posX && newY == this.posY-1 && this.color == "white") 
         || (newX == this.posX && newY == this.posY+1 && this.color == "black")
@@ -47,6 +49,8 @@ class Pawn  extends Chess{
 // ------------------------------- Тура ------------------------------
 
 class Rook  extends Chess{
+    name = "rook";
+
     MisReal (newX, newY, arr) {
         this.arr = arr;
         if (newX == this.posX && newY != this.posY){
@@ -88,6 +92,7 @@ class Rook  extends Chess{
 // --------------------------------Слон-------------------------------
 
 class Bishop  extends Chess{
+    name = "bishop";
     MisReal (newX, newY, arr) {
         this.arr = arr;
         if (newX!=this.posX && newY!=this.posY)
@@ -138,6 +143,7 @@ class Bishop  extends Chess{
 // --------------------------------Конь-------------------------------
 
 class Horse extends Chess{
+    name = "horse";
     MisReal(newX, newY, arr){
         if (((newX == this.posX + 2 || newX == this.posX - 2) && (newY == this.posY+1 || newY == this.posY-1)
         || (newX == this.posX + 1 || newX == this.posX - 1) && (newY == this.posY+2 || newY == this.posY-2))
@@ -164,6 +170,7 @@ class Horse extends Chess{
 // --------------------------------Король------------------------------
 
 class King extends Chess{
+    name = "king";
     MisReal(newX, newY, arr){
         if((((newX == this.posX+1)||(newX == this.posX-1))&&((newY == this.posY+1)||(newY == this.posY-1))
         || (newX == this.posX) && (newY == this.posY+1 || newY == this.posY-1)
@@ -190,6 +197,7 @@ class King extends Chess{
 
 
 class Qeen  extends Chess{
+    name = "queen";
     MisReal (newX, newY, arr) {
         this.arr = arr;
         if (newX==this.posX && newY==this.posY) return false;
@@ -258,7 +266,7 @@ class Qeen  extends Chess{
     }
 
     getName (){
-        return  (this.color + " Qeen " + this.posX);
+        return  (this.color + " Queen " + this.posX);
     }
 }
 
@@ -326,27 +334,30 @@ function start (table){
 //var Mx, My; //PlayerColor="white";
 
 function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
-    console.log(table);
+    
     t = document.getElementById(id.toString());
     y = (id-(id%10))/10;
     x = id%10;
     if (table[x][y] != null || table[x][y] != undefined){
-    ches = table[x][y].getName();
-    Ccolor = ches.slice(0,ches.indexOf(" "));
-    Cname = ches.slice(ches.indexOf(" ")+1,ches.indexOf(" ",ches.indexOf(" ")+1));
+    //ches = table[x][y].getName();
+    //Ccolor = ches.slice(0,ches.indexOf(" "));
+    Ccolor = table[x][y].color;
+    //Cname = ches.slice(ches.indexOf(" ")+1,ches.indexOf(" ",ches.indexOf(" ")+1));
     }
 
     if (MStage == false && Ccolor == PlayerColor){
     for (i=0;i<=77;i++){
         yt = (i-(i%10))/10;
-        xt = i%10; 
+        xt = i%10;
+        console.log("xt:" + xt + "  yt:" +yt);
+        console.log("x:" + x + "  y:" +y);
         if ( table[x][y] != undefined && table[x][y].MisReal(xt, yt, table) == true){
             tt = document.getElementById(yt + "" + xt);
             tt.style.backgroundColor="Green";
             MStage = true;
             Mx = x; My = y;
         }
-        if ( (table[x][y]) != null ){
+        if ( table[xt][yt] != undefined && (table[x][y]) != null ){
         if (table[x][y].KisReal(xt, yt, table[xt][yt].getColor())==true){
             tt = document.getElementById(yt + "" + xt);
             tt.style.backgroundColor="Red";
@@ -355,10 +366,17 @@ function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
         }}
         if ( xt == 7 ) i+=2;
     }
-    //return (table);
+    return ({
+        table : table,
+        Mx : Mx,
+        My : My, 
+        MStage : MStage
+    });
 }
 
     else{
+        console.log(table[Mx][My].name);
+        console.log("x:" + x + "  y:" +y);
         if (MStage == true && Ccolor == PlayerColor && table[Mx][My].MisReal(x, y, table) || (MStage == true && table[Mx][My].KisReal(x, y, table[x][y].getColor()))){
             //if (Cname == "King") {alert ("Game Over"); break;}
             //else {
@@ -378,6 +396,12 @@ function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
         //PlayerColor = colorSwitch(PlayerColor);
         colorOK();
             //}
+            return ({
+                table : table,
+                Mx : Mx,
+                My : My, 
+                MStage : MStage
+            });
     }
     
 else if (PlayerColor != Ccolor) alert ("Ты куда едешь ?");
@@ -403,4 +427,9 @@ function colorOK(){
     }
 }
 
-
+function OnClickk (table) {
+    if(table[4][1].MisReal(4,2,table) == true){
+    table[4][2] = table[4][1];
+    table[4][1] = undefined;
+    return(table);}
+}
