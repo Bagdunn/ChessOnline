@@ -101,13 +101,13 @@
         var socket = io.connect();
         socket.emit('come', (window.location.href));
         var player;
+        var Tcolor = 'white';
         socket.emit('setColor',);
         socket.on('getColor', (C) => {
             player = C;
         });
-        
-        var $n = $("#message");
-        var $m = $("#messagee");
+        console.log(player);
+
         var Mx,My, MStage = false;
         let tablee = new Array(8);
         
@@ -120,13 +120,14 @@
         }
 
         function ChessOnClick(id){
-            res = ChessOnClickk(id, player, tablee, Mx, My, MStage);
+            res = ChessOnClickk(id, player, tablee, Mx, My, MStage, Tcolor);
             tablee = res.table;
             Mx = res.Mx;
             My = res.My;
             MStage = res.MStage;
-            socket.emit('turn', tablee);
-            console.log(MStage);
+            Tcolor = res.Tcolor;
+            socket.emit('turn', Tcolor, tablee);
+            console.log(Tcolor);
             console.log(Mx + " " + My);
         }
 
@@ -134,8 +135,9 @@
             
         });
 
-        socket.on('turned', (tableee) => {
+        socket.on('turned', (Tcolorr, tableee) => {
             tablee = tableee;
+            Tcolor = Tcolorr;
             console.log(tablee);
             for (i=0;i<=77;i++){
                 y = (i-(i%10))/10;

@@ -184,11 +184,24 @@ function colorOK(){
     }
 }
 
-function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
+function colorSwitch(color){
+    if (color == 'white'){
+        color = 'black';
+        return (color)
+    }
+    if (color == 'black'){
+        color = 'white';
+        return (color)
+    }
+}
+
+function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage, Tcolor){
     y = (id-(id%10))/10;
     x = id%10;
 
-    if ( table[x][y] != undefined && MStage == false){
+    //console.log ('Pc:' + PlayerColor + "  Tc:" +  Tcolor + "  Cc" + table[x][y].color);
+
+    if ( table[x][y] != undefined && MStage == false && (PlayerColor == Tcolor && PlayerColor == table[x][y].color) ) {
         Mx = x; My = y;
         MStage = true;
         for (i=0;i<=77;i++){
@@ -210,7 +223,8 @@ function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
             table : table,
             Mx : Mx,
             My : My, 
-            MStage : MStage
+            MStage : MStage,
+            Tcolor : Tcolor
         });
     }
 
@@ -223,14 +237,29 @@ function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
             table[Mx][My] = undefined;
             Mx = null; My = null;
             MStage = false;
+            console.log ("1:" + Tcolor);
+            Tcolor = colorSwitch(Tcolor);
+            console.log ("2:" + Tcolor);
             colorOK();
             return ({
                 table : table,
                 Mx : Mx,
                 My : My, 
-                MStage : MStage
+                MStage : MStage,
+                Tcolor : Tcolor
             });
         }
+    }
+
+    else {
+        alert ("ta kuda");
+        return ({
+            table : table,
+            Mx : Mx,
+            My : My, 
+            MStage : MStage,
+            Tcolor : Tcolor
+        });
     }
 
 }

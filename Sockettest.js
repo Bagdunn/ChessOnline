@@ -84,13 +84,13 @@ io.on('connection', (socket) => {
         io.to(socket.id).emit('getColor', socket.color);
     });
 
-    socket.on('turn', (tablee) => {
-        io.to(socket.room).emit('turned', tablee);
+    socket.on('turn', (Tcolor, tablee) => {
+        io.to(socket.room).emit('turned', Tcolor, tablee);
     });
 
-    socket.on('testclick', (id, player, tablee, Mx, My, MStage) =>{
+    socket.on('testclick', (id, player, tablee, Mx, My, MStage, Tcolor) =>{
         console.log('test 2');
-        res = ChessOnClickk(id, player, tablee, Mx, My, MStage);
+        res = ChessOnClickk(id, player, tablee, Mx, My, MStage, Tcolor);
         socket.emit('backrez', (res));
         
     });
