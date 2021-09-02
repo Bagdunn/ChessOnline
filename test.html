@@ -8,12 +8,10 @@
     <h1 id="helloer" >Zdarova</h1>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="game.js"></script>
+    <script src="gaame.js"></script>
       
-    <input id="message" type="text">
     <button onclick="OnClick()"> count </button>
     <button onclick="kk()"> connect</button>
-    <input id="messagee" type="text">
 
     <table class="ChesTable" border="1">
         <tr>
@@ -116,7 +114,6 @@
         for (var i = 0; i < tablee.length; i++) {
         tablee [i] = new Array(8);}
         start(tablee);
-        console.log(tablee[1][1].getName());
 
         function countt(){
             socket.emit('count', ($n.val()))
@@ -133,26 +130,11 @@
             console.log(Mx + " " + My);
         }
 
-        function TestClick(id){ы
-            socket.emit('testclick', (id, player, tablee, Mx, My, MStage))
-        }
-
         socket.on ('backrez', (res) => {
             
         });
 
         socket.on('turned', (tableee) => {
-            //onsole.log(tableee);
-            //tablee = tableee;
-            //alert (tablee[0][0]);
-            // for (let i = 0; i<8; i++){
-            //     for (let j = 0; j< 8; j++){
-            //         tablee [i][j] = tableee [i][j];
-            //         y = (i-(i%10))/10;
-            //         x = i%10;
-            //         t = document.getElementById(y + "" + x);
-            //     }
-            // }
             tablee = tableee;
             console.log(tablee);
             for (i=0;i<=77;i++){
@@ -160,8 +142,7 @@
                 x = i%10;
                 t = document.getElementById(y + "" + x);
                 if ( tablee[x][y] != undefined){
-                    //console.log(tablee[x][y].name);
-                    t.textContent = tablee[x][y].name;
+                    t.textContent =tablee[x][y].color + " " + tablee[x][y].name;
                 }
                 if ( tablee[x][y] == undefined){
                     t.textContent = "";

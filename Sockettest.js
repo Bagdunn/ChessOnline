@@ -11,7 +11,7 @@ server.listen(3000, () => {
 });
 
 
-app.use('/game.js', express.static(__dirname + '/game.js'));
+app.use('/gaame.js', express.static(__dirname + '/gaame.js'));
 
 app.use('/style.css', express.static(__dirname + '/style.css'));
  
