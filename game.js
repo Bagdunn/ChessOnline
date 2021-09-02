@@ -330,7 +330,6 @@ function start (table){
     colorOK();
 }
 
-//let MStage = false;
 //var Mx, My; //PlayerColor="white";
 
 function ChessOnClickk(id, PlayerColor, table, Mx, My, MStage){
