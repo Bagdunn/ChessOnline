@@ -5,13 +5,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body onload="">
-    <h1 id="helloer" >Zdarova</h1>
+    <div>
+    </div>
+    <h1 id="" >Chess</h1>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="gaame.js"></script>
       
-    <button onclick="OnClick()"> count </button>
-    <button onclick="kk()"> connect</button>
 
     <table class="ChesTable" border="1">
         <tr>
@@ -106,18 +106,12 @@
         socket.on('getColor', (C) => {
             player = C;
         });
-        console.log(player);
-
         var Mx,My, MStage = false;
         let tablee = new Array(8);
         
         for (var i = 0; i < tablee.length; i++) {
         tablee [i] = new Array(8);}
         start(tablee);
-
-        function countt(){
-            socket.emit('count', ($n.val()))
-        }
 
         function ChessOnClick(id){
             res = ChessOnClickk(id, player, tablee, Mx, My, MStage, Tcolor);
@@ -126,19 +120,18 @@
             My = res.My;
             MStage = res.MStage;
             Tcolor = res.Tcolor;
+            GO = res.GO;
+            if (GO == true){
+            socket.emit('game_over',  );
+            }
+            else{
             socket.emit('turn', Tcolor, tablee);
-            console.log(Tcolor);
-            console.log(Mx + " " + My);
+            }
         }
-
-        socket.on ('backrez', (res) => {
-            
-        });
 
         socket.on('turned', (Tcolorr, tableee) => {
             tablee = tableee;
             Tcolor = Tcolorr;
-            console.log(tablee);
             for (i=0;i<=77;i++){
                 y = (i-(i%10))/10;
                 x = i%10;
@@ -153,18 +146,11 @@
             }
         });
 
-        socket.on('counte', (x) => {
-            console.log("da");
-            x = (x + 5);
-            $m.val(x);
-            console.log("da");
+        socket.on('over', () =>{
+            alert("GAME OVER");
+            location.href='/';
         });
 
-        function OnClick(){
-            tablee = OnClickk (tablee);
-
-            socket.emit('turn', tablee);
-        }
     </script>
 
 </body>

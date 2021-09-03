@@ -25,17 +25,17 @@ app.get('*', function(request, respons){
     respons.sendFile(__dirname + '/test.html');
 });
 
-users = [];
+var P1,P2;
 connections = [];
 freeRooms = {
     Isfree : false,
-    NameofFree : "", 
     idofFree : ""
 }
 
 var white=0;
 
 io.on('connection', (socket) => {
+
     console.log(socket.id + " connected");
     if (white == 0){
         socket.color = "white";
@@ -50,21 +50,19 @@ io.on('connection', (socket) => {
         connections.splice(connections.indexOf(socket),1);
     });
 
-    socket.on('join room', (Name) => {
+    socket.on('join room', () => {
         if (freeRooms.Isfree){
         socket.room = (freeRooms.idofFree);
         socket.join(freeRooms.idofFree);
         
-        linkk = socket.id + "ua";
+        linkk = socket.id;
 
         io.to(socket.room).emit('new page', linkk);
 
         freeRooms.Isfree = false;
-        freeRooms.NameofFree = ("");
         }
         else {
         freeRooms.Isfree = true;
-        freeRooms.NameofFree = (Name);
         freeRooms.idofFree = (socket.id);
         socket.room = socket.id;
         socket.join(socket.id);
@@ -77,22 +75,16 @@ io.on('connection', (socket) => {
         socket.room=linq;
     });
 
-    socket.on('count', (x) => {
-        io.to(socket.room).emit('counte', x);
-    });
     socket.on('setColor', () => {
         io.to(socket.id).emit('getColor', socket.color);
     });
 
-    socket.on('turn', (Tcolor, tablee) => {
-        io.to(socket.room).emit('turned', Tcolor, tablee);
+    socket.on('game_over', () =>{
+        io.to(socket.room).emit('over', )
     });
 
-    socket.on('testclick', (id, player, tablee, Mx, My, MStage, Tcolor) =>{
-        console.log('test 2');
-        res = ChessOnClickk(id, player, tablee, Mx, My, MStage, Tcolor);
-        socket.emit('backrez', (res));
-        
+    socket.on('turn', (Tcolor, tablee) => {
+        io.to(socket.room).emit('turned', Tcolor, tablee);
     });
 
 
